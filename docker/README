@@ -1,0 +1,26 @@
+# Docker Templates
+
+Multi-stage Dockerfile + Compose setup for TypeScript/Express/Prisma projects.
+
+## Files
+
+| File | Purpose |
+|---|---|
+| `Dockerfile` | Multi-stage build: deps → build → prod-deps → runtime. Runs as non-root, includes healthcheck. |
+| `docker-compose.yml` | Local dev — hot reload via volume mount, Postgres with exposed port. |
+| `docker-compose.prod.yml` | Production overrides — no source mount, resource limits, no exposed DB port. |
+| `.dockerignore` | Keeps build context lean and avoids leaking secrets/tests into the image. |
+
+## Usage
+
+1. Copy `Dockerfile`, `docker-compose.yml`, `.dockerignore` into project root.
+2. Adjust `CMD`/`command` paths if your entry point differs from `dist/server.js` / `src/server.ts`.
+3. Ensure a `/health` endpoint exists (used by `HEALTHCHECK`).
+4. Dev: `docker compose up`
+5. Prod: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
+
+## Requirements assumed
+
+- `npm run build` compiles to `dist/`
+- `npm run dev` runs via `tsx watch` (or similar) for hot reload
+- Prisma schema at `prisma/schema.prisma`

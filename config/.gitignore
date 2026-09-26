@@ -1,8 +1,29 @@
-# dist/
-# node_modules/
-# .env
-# .env.production
-# .env.test
-# logs/
-# /src/generated/
-# coverage/
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+
+# Prisma
+prisma/migrations/dev.db*
